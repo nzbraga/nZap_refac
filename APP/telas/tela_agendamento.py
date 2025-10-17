@@ -1,5 +1,8 @@
 import tkinter as tk
+from tkinter import ttk
+from tkcalendar import DateEntry
 
+from APP.func.agendar_msg import agendar
 
 def tela_agendamento(self):
     self.limpar_tela()
@@ -27,27 +30,61 @@ def tela_agendamento(self):
     mensagem = tk.Text(container, width=40, height=6, font=("Arial", 11))
     mensagem.grid(row=1, column=1, pady=5, padx=10)
 
+    # ===== Campo: Frequência + Data =====
+    tk.Label(container, text="Frequência:", font=("Arial", 12)).grid(row=2, column=0, sticky="w", pady=5)
+
+    # Frame horizontal para alinhar combobox e DateEntry
+    freq_data_frame = tk.Frame(container)
+    freq_data_frame.grid(row=2, column=1, pady=5, padx=10, sticky="we")
+
+    # Combobox à esquerda
+    frequencia_var = tk.StringVar()
+    frequencia_combo = ttk.Combobox(
+        freq_data_frame,
+        textvariable=frequencia_var,
+        values=["Uma vez", "Diária", "Semanal", "Mensal", "Anual"],
+        state="readonly",
+        font=("Arial", 11),
+        width=12
+    )
+    frequencia_combo.pack(side="left", anchor="w")
+    frequencia_combo.current(0)
+
+    # DateEntry à direita
+    data_entry = DateEntry(
+        freq_data_frame,
+        width=12,
+        font=("Arial", 11),
+        background='darkblue',
+        foreground='white',
+        borderwidth=2,
+        date_pattern='dd/mm/yyyy'
+    )
+    data_entry.pack(side="right", anchor="e")
+
     # ===== Label de notificação =====
     notif_label = tk.Label(self.frame_principal, text="", font=("Arial", 12, "bold"))
     notif_label.pack(pady=5)
 
     # ===== Função de envio =====
-    def agendar():
-        print("Agendando mensagem...")
-       
+
 
     # ===== Botão Enviar =====
     btn_enviar = tk.Button(
-        self.frame_principal,
-        text="📨 Enviar Mensagem",
+        container,
+        text="📨 Agendar Mensagem",
         bg="#4CAF50",
         fg="white",
         font=("Arial", 12, "bold"),
         width=20,
         height=2,
-        command=agendar
+        command=agendar(
+            destinatario.get(),
+            mensagem.get("1.0", "end").strip(),
+            frequencia_var.get(),
+            data_entry.get())
     )
-    btn_enviar.pack(pady=20)
+    btn_enviar.grid(row=3, column=1, pady=10)
 
     # ===== Foco automático =====
     destinatario.focus_set()

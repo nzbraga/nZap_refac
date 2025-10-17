@@ -27,9 +27,10 @@ def tela_mensagem(self):
     mensagem = tk.Text(container, width=40, height=6, font=("Arial", 11))
     mensagem.grid(row=1, column=1, pady=5, padx=10)
 
-    # ===== Label de notificação =====
-    notif_label = tk.Label(self.frame_principal, text="", font=("Arial", 12, "bold"))
-    notif_label.pack(pady=5)
+    # Frame horizontal para alinhar combobox e DateEntry
+    notif_label = tk.Frame(container)
+    notif_label.grid(row=2, column=1, pady=5, padx=10, sticky="we")
+
 
     # ===== Função de envio =====
     def enviar():
@@ -50,7 +51,7 @@ def tela_mensagem(self):
 
     # ===== Botão Enviar =====
     btn_enviar = tk.Button(
-        self.frame_principal,
+        container,
         text="📨 Enviar Mensagem",
         bg="#4CAF50",
         fg="white",
@@ -59,7 +60,12 @@ def tela_mensagem(self):
         height=2,
         command=enviar
     )
-    btn_enviar.pack(pady=20)
+    btn_enviar.grid(row=3, column=1, pady=10)
 
     # ===== Foco automático =====
     destinatario.focus_set()
+
+
+
+
+

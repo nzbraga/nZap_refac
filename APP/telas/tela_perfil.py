@@ -21,7 +21,7 @@ def tela_perfil(self):
     self.frame_conteudo.pack(pady=10)
 
     # Label onde o QR será exibido
-    self.label_qrcode = tk.Label(self.frame_conteudo, text="Carregando QR Code...", font=("Arial", 11))
+    self.label_qrcode = tk.Label(self.frame_conteudo, text="Carregando...", font=("Arial", 11))
     self.label_qrcode.pack(pady=10)
 
     # Frame dos botões (inicialmente oculto)

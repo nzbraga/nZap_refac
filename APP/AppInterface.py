@@ -9,6 +9,7 @@ from APP.func.limpar_tela import limpar_tela
 from APP.telas.tela_perfil import tela_perfil
 from APP.telas.tela_mensagem import tela_mensagem
 from APP.telas.tela_agendamento import tela_agendamento
+from APP.telas.tela_config import tela_config
 
 
 
@@ -18,6 +19,9 @@ class AppInterface:
         self.root = tk.Tk()
         self.root.title("nZap")
         self.root.geometry("500x400")
+
+        self.root.resizable(False, False)
+        self.root.attributes('-toolwindow', True) 
 
         self.wd = WebDriver(client="test_default", headless=False)
         threading.Thread(target=self.wd.iniciar, daemon=True).start()
@@ -45,6 +49,7 @@ class AppInterface:
     tela_perfil = tela_perfil
     tela_mensagem = tela_mensagem
     tela_agendamento = tela_agendamento
+    tela_config = tela_config
 
 
 

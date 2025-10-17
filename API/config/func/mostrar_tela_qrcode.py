@@ -30,7 +30,7 @@ def mostrar_tela_qrcode(self):
             else:
                 def mostrar_texto():
                     if not getattr(self, "logado", False):
-                        self.label_qrcode.configure(text="Carregando QR Code...")
+                        self.label_qrcode.configure(text="Carregando...")
                 self.frame_principal.after(0, mostrar_texto)
 
         except Exception as e:
