@@ -1,5 +1,5 @@
+import time
 from selenium import webdriver
-
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -18,3 +18,5 @@ def iniciar(self):
 
     self.driver = webdriver.Chrome(options=self.options)
     self.driver.get("https://web.whatsapp.com")
+
+

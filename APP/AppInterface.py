@@ -20,8 +20,8 @@ class AppInterface:
         self.root.title("nZap")
         self.root.geometry("500x400")
 
-        self.root.resizable(False, False)
-        self.root.attributes('-toolwindow', True) 
+        #self.root.resizable(False, False)
+        #self.root.attributes('-toolwindow', True) 
 
         self.wd = WebDriver(client="test_default", headless=False)
         threading.Thread(target=self.wd.iniciar, daemon=True).start()

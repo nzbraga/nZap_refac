@@ -8,7 +8,7 @@ from API.config.func.mostrar_tela_qrcode import mostrar_tela_qrcode
 from API.config.func.buscar_elemento import buscar_elemento
 from API.config.func.enviar_msg import enviar_msg
 from API.config.func.enviar_doc import enviar_doc
-
+from API.config.func.dados_usuario import dados_usuario
 
 
 class WebDriver:
@@ -28,4 +28,5 @@ class WebDriver:
     buscar_elemento = buscar_elemento
     enviar_msg = enviar_msg 
     enviar_doc = enviar_doc
+    dados_usuario = dados_usuario
   
