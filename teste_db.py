@@ -1,72 +1,97 @@
-from APP.database.database import Database # ajuste o import conforme a localização do seu arquivo
+from APP.database.database import Database
 
-def main():
-    db = Database("test_config.db")
+def testar_database():
+    db = Database()
 
-    print("===== TESTANDO USUÁRIOS =====")
-    # Criar usuários
-    db.criar_usuario("Alice", "1111-1111")
-    db.criar_usuario("Bob", "2222-2222")
-    
+    print("=== TESTE DE USUÁRIOS ===")
+    # Criar usuário
+    sucesso = db.criar_usuario("João Silva", "11999999999", "joao@email.com")
+    print("Criar usuário:", sucesso)
+
     # Ler usuários
-    print("Usuários:", db.ler_usuarios())
+    usuarios = db.ler_usuarios()
+    print("Usuários:", usuarios)
+
+    user_id = usuarios[0][0]  # pegar id do primeiro usuário
 
     # Atualizar usuário
-    db.atualizar_usuario(1, nome="Alice Silva")
-    print("Usuários após update:", db.ler_usuarios())
+    db.atualizar_usuario(user_id, nome="João S.", numero="11988888888")
+    print("Usuário atualizado:", db.ler_usuarios())
 
-    # Deletar usuário
-    db.deletar_usuario(2)
-    print("Usuários após delete (soft):", db.ler_usuarios())
-    print("Incluindo ocultos:", db.ler_usuarios(incluir_ocultos=True))
+    # Soft delete e restaurar
+    db.deletar_usuario(user_id)
+    print("Após soft delete:", db.ler_usuarios())
+    db.restaurar_usuario(user_id)
+    print("Após restaurar:", db.ler_usuarios())
 
-    # Restaurar usuário
-    db.restaurar_usuario(2)
-    print("Usuários após restaurar:", db.ler_usuarios())
+    # Deletar permanentemente
+    db.deletar_usuario_permanentemente(user_id)
+    print("Após exclusão permanente:", db.ler_usuarios())
 
-    print("\n===== TESTANDO MENSAGENS =====")
-    # Criar mensagens
-    #db.criar_mensagem(1, "Olá, esta é a primeira mensagem!", "2025-10-26 04:00")
-    #db.criar_mensagem(1, "Segunda mensagem", "2025-10-26 05:00")
-    
-    # Ler mensagens
-    print("Mensagens do usuário 1:", db.ler_mensagens(1))
+    print("\n=== TESTE DE MODELOS DE MENSAGEM ===")
+    # Criar usuário novamente para testes de mensagens
+    db.criar_usuario("Maria", "11977777777", "maria@email.com")
+    user_id = db.ler_usuarios()[0][0]
 
-    # Deletar mensagem
-    db.deletar_mensagem(1)
-    print("Mensagens após delete (soft):", db.ler_mensagens(1))
-    print("Incluindo ocultas:", db.ler_mensagens(1, incluir_ocultos=True))
+    # Criar modelo
+    modelo_id = db.criar_modelo_mensagem(user_id, "Promoção", "Confira nossas promoções!")
+    print("Modelo criado:", db.ler_modelos_mensagem(user_id))
 
-    # Restaurar mensagem
-    db.restaurar_mensagem(1)
-    print("Mensagens após restaurar:", db.ler_mensagens(1))
+    # Atualizar modelo
+    db.atualizar_modelo_mensagem(modelo_id, texto="Promoção imperdível!")
+    print("Modelo atualizado:", db.ler_modelos_mensagem(user_id))
 
-    print("\n===== TESTANDO CONTATOS =====")
-    # Criar contatos
-    db.criar_contato(1, "Carol", "3333-3333", aniversario="1990-01-01")
-    db.criar_contato(1, "Daniel", "4444-4444")
+    # Soft delete e restaurar modelo
+    db.deletar_modelo_mensagem(modelo_id)
+    print("Após soft delete:", db.ler_modelos_mensagem(user_id))
+    db.restaurar_modelo_mensagem(modelo_id)
+    print("Após restaurar:", db.ler_modelos_mensagem(user_id))
 
-    # Ler contatos
-    print("Contatos do usuário 1:", db.ler_contatos(1))
+    # Excluir permanentemente
+    db.deletar_modelo_mensagem_permanentemente(modelo_id)
+    print("Após exclusão permanente:", db.ler_modelos_mensagem(user_id))
+
+    print("\n=== TESTE DE MENSAGENS ===")
+    # Criar mensagem
+    msg_id = db.criar_mensagem(user_id, "Olá, teste!", "2025-10-27 16:00", enviado=True)
+    print("Mensagem criada:", db.ler_mensagens(user_id))
+
+    # Atualizar mensagem
+    db.atualizar_mensagem(msg_id, conteudo="Olá, teste atualizado!")
+    print("Mensagem atualizada:", db.ler_mensagens(user_id))
+
+    # Soft delete e restaurar
+    db.deletar_mensagem(msg_id)
+    print("Após soft delete:", db.ler_mensagens(user_id))
+    db.restaurar_mensagem(msg_id)
+    print("Após restaurar:", db.ler_mensagens(user_id))
+
+    # Excluir permanentemente
+    db.deletar_mensagem_permanentemente(msg_id)
+    print("Após exclusão permanente:", db.ler_mensagens(user_id))
+
+    print("\n=== TESTE DE CONTATOS ===")
+    # Criar contato
+    contato_id = db.criar_contato(user_id, "Carlos", "11966666666", "1990-01-01", "2025-12-31")
+    contatos = db.ler_contatos(user_id)
+    print("Contato criado:", contatos)
 
     # Atualizar contato
-    db.atualizar_contato(1, nome="Carol Souza", telefone="3333-0000")
-    print("Contatos após update:", db.ler_contatos(1))
+    db.atualizar_contato(contatos[0][0], nome="Carlos S.", telefone="11955555555")
+    print("Contato atualizado:", db.ler_contatos(user_id))
 
-    # Deletar contato
-    db.deletar_contato(2)
-    print("Contatos após delete (soft):", db.ler_contatos(1))
-    print("Incluindo ocultos:", db.ler_contatos(1, incluir_ocultos=True))
+    # Soft delete e restaurar
+    db.deletar_contato(contatos[0][0])
+    print("Após soft delete:", db.ler_contatos(user_id))
+    db.restaurar_contato(contatos[0][0])
+    print("Após restaurar:", db.ler_contatos(user_id))
 
-    # Restaurar contato
-    db.restaurar_contato(2)
-    print("Contatos após restaurar:", db.ler_contatos(1))
+    # Excluir permanentemente
+    db.deletar_contato_definitivamente(contatos[0][0])
+    print("Após exclusão permanente:", db.ler_contatos(user_id))
 
-  
-
-    # Fechar conexão
     db.fechar()
-    print("\n===== TESTE FINALIZADO =====")
+    print("\n=== TESTE CONCLUÍDO ===")
 
 if __name__ == "__main__":
-    main()
+    testar_database()

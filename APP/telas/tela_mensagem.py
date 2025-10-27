@@ -1,4 +1,5 @@
 import tkinter as tk
+from APP.func.enviar_msg import enviar
 
 
 def tela_mensagem(self):
@@ -14,56 +15,49 @@ def tela_mensagem(self):
     titulo.pack()
 
     # ===== Container principal =====
-    container = tk.Frame(self.frame_principal, padx=20, pady=20)
-    container.pack(fill="both", expand=True)
+    self.container = tk.Frame(self.frame_principal, padx=20, pady=20)
+    self.container.pack(fill="both", expand=True)
 
     # ===== Campo: Destinatário =====
-    tk.Label(container, text="Enviar para:", font=("Arial", 12)).grid(row=0, column=0, sticky="w", pady=5)
-    destinatario = tk.Entry(container, width=40, font=("Arial", 11))
-    destinatario.grid(row=0, column=1, pady=5, padx=10)
+    tk.Label(self.container, text="Lista de envio:", font=("Arial", 12)).grid(row=0, column=0, sticky="w", pady=5)
+
+    self.btn_abrir_lista = tk.Button(
+        self.container,
+        text="📨 Abrir Lista",
+        bg="#4CAF50",
+        fg="white",
+        font=("Arial", 12, "bold"),
+        width=20,
+        height=2,
+        command=print("abir lista")
+    )
+    self.btn_abrir_lista.grid(row=0, column=1, pady=10)
+
 
     # ===== Campo: Mensagem =====
-    tk.Label(container, text="Mensagem:", font=("Arial", 12)).grid(row=1, column=0, sticky="nw", pady=5)
-    mensagem = tk.Text(container, width=40, height=6, font=("Arial", 11))
-    mensagem.grid(row=1, column=1, pady=5, padx=10)
+    tk.Label(self.container, text="Mensagem:", font=("Arial", 12)).grid(row=1, column=0, sticky="nw", pady=5)
+    self.mensagem = tk.Text(self.container, width=40, height=6, font=("Arial", 11))
+    self.mensagem.grid(row=1, column=1, pady=5, padx=10)
 
     # Frame horizontal para alinhar combobox e DateEntry
-    notif_label = tk.Frame(container)
-    notif_label.grid(row=2, column=1, pady=5, padx=10, sticky="we")
-
-
-    # ===== Função de envio =====
-    def enviar():
-        destinatario_text = destinatario.get()
-        mensagem_text = mensagem.get("1.0", tk.END).strip()
-
-        # Aqui chamamos a função do WebDriver
-        if self.wd is not None:
-            sucesso = self.wd.enviar_msg(destinatario_text, mensagem_text)
-            if sucesso is False:
-                notif_label.config(text="❌ Falha ao enviar mensagem!", fg="red")
-            else:
-                notif_label.config(text="✅ Mensagem enviada com sucesso!", fg="green")
-                # Limpa o campo de mensagem
-                mensagem.delete("1.0", tk.END)
-        else:
-            notif_label.config(text="⚠️ WebDriver não iniciado!", fg="orange")
+    self.notif_label = tk.Frame(self.container)
+    self.notif_label.grid(row=2, column=1, pady=5, padx=10, sticky="we")
 
     # ===== Botão Enviar =====
     btn_enviar = tk.Button(
-        container,
+        self.container,
         text="📨 Enviar Mensagem",
         bg="#4CAF50",
         fg="white",
         font=("Arial", 12, "bold"),
         width=20,
         height=2,
-        command=enviar
+        command=enviar(self)
     )
     btn_enviar.grid(row=3, column=1, pady=10)
 
     # ===== Foco automático =====
-    destinatario.focus_set()
+    self.destinatario.focus_set()
 
 
 

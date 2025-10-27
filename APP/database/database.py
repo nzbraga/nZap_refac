@@ -2,9 +2,10 @@ import sqlite3
 from pathlib import Path
 import uuid
 
-from APP.database.usuarios import *
-from APP.database.mensagens import *
-from APP.database.contatos import *
+from APP.database.func.usuarios import *
+from APP.database.func.mensagens import *
+from APP.database.func.contatos import *
+from APP.database.func.modelos_mensagem import *
 
 
 class Database:
@@ -33,12 +34,27 @@ class Database:
         """)
 
         self.cursor.execute("""
+        CREATE TABLE IF NOT EXISTS config (
+            id_usuario TEXT PRIMARY KEY,
+            remetente TEXT NOT NULL,
+            hora_inicio TEXT DEFAULT '08:00',
+            hora_final TEXT DEFAULT '18:00',
+            intervalo_exec INTEGER NOT NULL,
+            confirmar_envio BOOLEAN DEFAULT 0,
+            FOREIGN KEY (id_usuario) REFERENCES usuarios (id) ON DELETE CASCADE
+        )
+        """)
+        self.conn.commit()
+
+
+        self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS mensagens (
             id TEXT PRIMARY KEY,
             usuario_id TEXT NOT NULL,
             conteudo TEXT NOT NULL,
             data_envio TEXT,
             visivel BOOLEAN DEFAULT 1,
+            enviado BOOLEAN DEFAULT 1,
             FOREIGN KEY (usuario_id) REFERENCES usuarios (id)  ON DELETE CASCADE
         )
         """)
@@ -57,6 +73,18 @@ class Database:
         """)
         self.conn.commit()
 
+        self.cursor.execute("""
+        CREATE TABLE IF NOT EXISTS modelos_mensagem (
+            id TEXT PRIMARY KEY,
+            id_usuario TEXT NOT NULL,
+            titulo TEXT NOT NULL,
+            texto TEXT NOT NULL,
+            visivel BOOLEAN DEFAULT 1,
+            FOREIGN KEY (id_usuario) REFERENCES usuarios (id) ON DELETE CASCADE
+        )
+        """)
+        self.conn.commit()
+
 
     # ---------------- CRUD: USUÁRIOS ---------------- #
     criar_usuario = criar_usuario
@@ -66,6 +94,14 @@ class Database:
     restaurar_usuario = restaurar_usuario
     deletar_usuario_permanentemente = deletar_usuario_permanentemente
 
+  # ---------------- CRUD: MENSAGENS ---------------- #
+    
+    criar_modelo_mensagem = criar_modelo_mensagem
+    ler_modelos_mensagem = ler_modelos_mensagem
+    atualizar_modelo_mensagem = atualizar_modelo_mensagem
+    deletar_modelo_mensagem = deletar_modelo_mensagem
+    restaurar_modelo_mensagem = restaurar_modelo_mensagem
+    deletar_modelo_mensagem_permanentemente = deletar_modelo_mensagem_permanentemente
   # ---------------- CRUD: MENSAGENS ---------------- #
 
     criar_mensagem = criar_mensagem
