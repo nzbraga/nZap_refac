@@ -3,8 +3,8 @@ import threading
 
 from API.config.WebDriver import WebDriver
 
-from APP.func.criar_menu import criar_menu
-from APP.func.limpar_tela import limpar_tela
+from APP.telas.func.criar_menu import criar_menu
+from APP.telas.func.limpar_tela import limpar_tela
 
 from APP.telas.tela_perfil import tela_perfil
 from APP.telas.tela_mensagem import tela_mensagem
@@ -47,7 +47,7 @@ class AppInterface:
 
     #TELAS
     tela_perfil = tela_perfil
-    tela_mensagem = tela_mensagem
+    #tela_mensagem = tela_mensagem
     tela_agendamento = tela_agendamento
     tela_config = tela_config
 

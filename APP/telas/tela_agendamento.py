@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from APP.func.agendar_msg import agendar
+from APP.telas.func.agendar_msg import agendar
 
 def tela_agendamento(self):
     self.limpar_tela()
@@ -62,11 +62,33 @@ def tela_agendamento(self):
     )
     data_entry.pack(side="right", anchor="e")
 
+    btn_abrir_modelos = tk.Button(
+        container,
+        text="📋 Modelos",
+        bg="#2196F3",
+        fg="white",
+        font=("Arial", 10, "bold"),
+        width=10,
+        height=1,
+        command=print("abrir modelos")
+    )
+    btn_abrir_modelos.grid(row=2, column=1,pady=5)
+
+    btn_salvar_modelo = tk.Button(
+        container,
+        text="💾 Salvar Modelo",
+        bg="#FF9800",
+        fg="white",
+        font=("Arial", 10, "bold"),
+        width=15,
+        height=1,
+        command=print("salvar modelo")
+    )
+    btn_salvar_modelo.grid(row=2, column=2,pady=5)
     # ===== Label de notificação =====
     notif_label = tk.Label(self.frame_principal, text="", font=("Arial", 12, "bold"))
     notif_label.pack(pady=5)
 
-    # ===== Função de envio =====
 
 
     # ===== Botão Enviar =====
@@ -84,7 +106,7 @@ def tela_agendamento(self):
             frequencia_var.get(),
             data_entry.get())
     )
-    btn_enviar.grid(row=3, column=1, pady=10)
+    btn_enviar.grid(row=4, column=1, pady=10)
 
     # ===== Foco automático =====
     destinatario.focus_set()

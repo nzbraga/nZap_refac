@@ -1,5 +1,5 @@
 import tkinter as tk
-from APP.func.enviar_msg import enviar
+from APP.telas.func.enviar_msg import enviar
 
 
 def tela_mensagem(self):
@@ -43,6 +43,30 @@ def tela_mensagem(self):
     self.notif_label = tk.Frame(self.container)
     self.notif_label.grid(row=2, column=1, pady=5, padx=10, sticky="we")
 
+    btn_abrir_modelos = tk.Button(
+        self.container,
+        text="📋 Modelos",
+        bg="#2196F3",
+        fg="white",
+        font=("Arial", 10, "bold"),
+        width=10,
+        height=1,
+        command=print("abrir modelos")
+    )
+    btn_abrir_modelos.pack(row=3, column=1,pady=10)
+
+    btn_salvar_modelo = tk.Button(
+        self.container,
+        text="💾 Salvar Modelo",
+        bg="#FF9800",
+        fg="white",
+        font=("Arial", 10, "bold"),
+        width=15,
+        height=1,
+        command=print("salvar modelo")
+    )
+    btn_salvar_modelo.pack(row=3, column=2,pady=10)
+
     # ===== Botão Enviar =====
     btn_enviar = tk.Button(
         self.container,
@@ -54,7 +78,7 @@ def tela_mensagem(self):
         height=2,
         command=enviar(self)
     )
-    btn_enviar.grid(row=3, column=1, pady=10)
+    btn_enviar.grid(row=4, column=1, pady=10)
 
     # ===== Foco automático =====
     self.destinatario.focus_set()

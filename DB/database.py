@@ -2,10 +2,10 @@ import sqlite3
 from pathlib import Path
 import uuid
 
-from APP.database.func.usuarios import *
-from APP.database.func.mensagens import *
-from APP.database.func.contatos import *
-from APP.database.func.modelos_mensagem import *
+from DB.func.usuarios import *
+from DB.func.mensagens import *
+from DB.func.contatos import *
+from DB.func.modelos_mensagem import *
 
 
 class Database:
